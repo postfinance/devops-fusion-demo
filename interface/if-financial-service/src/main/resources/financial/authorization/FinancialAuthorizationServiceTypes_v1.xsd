@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fsa="http://postfinance.ch/devops/fusion/demo/services/financial/authorization/v1"
+    xmlns:fs="http://postfinance.ch/devops/fusion/demo/services/financial/types/v1" xmlns="http://postfinance.ch/devops/fusion/demo/services/financial/authorization/v1"
+    targetNamespace="http://postfinance.ch/devops/fusion/demo/services/financial/authorization/v1" elementFormDefault="qualified">
+    <xs:import namespace="http://postfinance.ch/devops/fusion/demo/services/financial/types/v1" schemaLocation="../types/FinancialServiceTypes_v1.xsd" />
+
+    <xs:element name="FinancialAuthorizationServiceException" type="fs:FinancialServiceException" />
+
+    <xs:element name="GetBalance" type="fsa:GetBalance" />
+    <xs:complexType name="GetBalance">
+        <xs:complexContent>
+            <xs:extension base="fs:FinancialServiceRequest">
+                <xs:sequence>
+                    <xs:element name="CardData" type="fs:CardData" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="GetBalanceResponse" type="fsa:GetBalanceResponse" />
+    <xs:complexType name="GetBalanceResponse">
+        <xs:complexContent>
+            <xs:extension base="fs:FinancialServiceResponse">
+                <xs:sequence>
+                    <xs:element name="Balance" type="fs:AmountType" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="WithdrawCash" type="fsa:WithdrawCash" />
+    <xs:complexType name="WithdrawCash">
+        <xs:complexContent>
+            <xs:extension base="fs:FinancialServiceRequest">
+                <xs:sequence>
+                    <xs:element name="CardData" type="fs:CardData" />
+                    <xs:element name="Amount" type="fs:AmountType" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <xs:element name="WithdrawCashResponse" type="fsa:WithdrawCashResponse" />
+    <xs:complexType name="WithdrawCashResponse">
+        <xs:complexContent>
+            <xs:extension base="fs:FinancialServiceResponse">
+                <xs:sequence>
+                    <xs:element name="NewBalance" type="fs:AmountType" />
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+</xs:schema>

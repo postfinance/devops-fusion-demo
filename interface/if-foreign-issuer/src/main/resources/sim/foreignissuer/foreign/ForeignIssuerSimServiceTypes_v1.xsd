@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fis="http://postfinance.ch/devops/fusion/demo/services/sim/foreignissuer/foreign/v1"
+    xmlns="http://postfinance.ch/devops/fusion/demo/services/sim/foreignissuer/foreign/v1" targetNamespace="http://postfinance.ch/devops/fusion/demo/services/sim/foreignissuer/foreign/v1"
+    elementFormDefault="qualified">
+    <xs:complexType name="CardData">
+        <xs:sequence>
+            <xs:element name="CardNumber">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="8" />
+                        <xs:maxLength value="8" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="AmountType">
+        <xs:restriction base="xs:long">
+            <xs:totalDigits value="12" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="WithdrawCash" type="fis:WithdrawCash" />
+    <xs:complexType name="WithdrawCash">
+        <xs:sequence>
+            <xs:element name="CardData" type="fis:CardData" />
+            <xs:element name="Amount" type="fis:AmountType" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="WithdrawCashResponse" type="fis:WithdrawCashResponse" />
+    <xs:complexType name="WithdrawCashResponse">
+        <xs:sequence>
+            <xs:element name="NewBalance" type="fis:AmountType" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="GetBalance" type="fis:GetBalance" />
+    <xs:complexType name="GetBalance">
+        <xs:sequence>
+            <xs:element name="CardData" type="fis:CardData" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="GetBalanceResponse" type="fis:GetBalanceResponse" />
+    <xs:complexType name="GetBalanceResponse">
+        <xs:sequence>
+            <xs:element name="Balance" type="fis:AmountType" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

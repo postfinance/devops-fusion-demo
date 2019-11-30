@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="FinancialAuthorizationService" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fs="http://postfinance.ch/devops/fusion/demo/services/financial/types/v1"
+    xmlns:fsa="http://postfinance.ch/devops/fusion/demo/services/financial/authorization/v1"
+    targetNamespace="http://postfinance.ch/devops/fusion/demo/services/financial/authorization/v1">
+    <types>
+        <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns="http://postfinance.ch/devops/fusion/demo/services/financial/authorization/v1"
+            targetNamespace="http://postfinance.ch/devops/fusion/demo/services/financial/authorization/v1">
+            <xs:include schemaLocation="FinancialAuthorizationServiceTypes_v1.xsd" />
+            <xs:import namespace="http://postfinance.ch/devops/fusion/demo/services/financial/types/v1" schemaLocation="../types/FinancialServiceTypes_v1.xsd" />
+        </xs:schema>
+    </types>
+
+    <message name="getBalanceRequest">
+        <part element="fsa:GetBalance" name="parameters" />
+    </message>
+
+    <message name="getBalanceResponse">
+        <part element="fsa:GetBalanceResponse" name="parameters" />
+    </message>
+
+    <message name="withdrawCashRequest">
+        <part element="fsa:WithdrawCash" name="parameters" />
+    </message>
+
+    <message name="withdrawCashResponse">
+        <part element="fsa:WithdrawCashResponse" name="parameters" />
+    </message>
+
+    <message name="FinancialAuthorizationServiceException">
+        <part element="fsa:FinancialAuthorizationServiceException" name="financialAuthorizationServiceExceptionFault" />
+    </message>
+
+    <portType name="FinancialAuthorizationServicePortType">
+        <operation name="getBalance">
+            <input message="fsa:getBalanceRequest" />
+            <output message="fsa:getBalanceResponse" />
+            <fault name="financialAuthorizationServiceExceptionFault" message="fsa:FinancialAuthorizationServiceException" />
+        </operation>
+        <operation name="withdrawCash">
+            <input message="fsa:withdrawCashRequest" />
+            <output message="fsa:withdrawCashResponse" />
+            <fault name="financialAuthorizationServiceExceptionFault" message="fsa:FinancialAuthorizationServiceException" />
+        </operation>
+    </portType>
+
+    <binding name="FinancialAuthorizationServiceHTTPBinding" type="fsa:FinancialAuthorizationServicePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <operation name="getBalance">
+            <soap:operation soapAction="GetBalance" style="document" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="financialAuthorizationServiceExceptionFault">
+                <soap:fault name="financialAuthorizationServiceExceptionFault" use="literal" />
+            </fault>
+        </operation>
+
+        <operation name="withdrawCash">
+            <soap:operation soapAction="WithdrawCash" style="document" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+            <fault name="financialAuthorizationServiceExceptionFault">
+                <soap:fault name="financialAuthorizationServiceExceptionFault" use="literal" />
+            </fault>
+        </operation>
+    </binding>
+
+    <service name="FinancialAuthorizationService">
+        <port name="FinancialAuthorizationServicePortType" binding="fsa:FinancialAuthorizationServiceHTTPBinding">
+            <soap:address location="http://localhost:7001/FinancialAuthorizationService?WSDL" />
+        </port>
+    </service>
+</definitions>

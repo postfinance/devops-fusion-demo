@@ -1,0 +1,25 @@
+financial-service:
+  issuer:
+    foreign-issuer:
+      url: ${APPL_FOREIGN_ISSUER_URL}
+    fremd-issuer:
+      url: ${APPL_FOREIGN_ISSUER_URL}
+management:
+  server:
+    port: 8090
+spring:
+  cloud:
+    feign:
+      client:
+        exchange-rate-service:
+          url: ${APPL_EXCHANGE_RATE_SERVICE_URL}
+  datasource:
+    url: ${APPL_JDBC_URL}
+    username: ${APPL_JDBC_USERNAME}
+    password: ${APPL_JDBC_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  data:
+    rest:
+      base-path: /api/rest/v1

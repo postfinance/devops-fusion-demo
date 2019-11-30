@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<withdrawCashs>
+    <withdrawCash>
+        <withdrawCashRequest>
+            <cardNumber>20101010</cardNumber>
+        </withdrawCashRequest>
+        <withdrawCashResponse>
+            <newBalance>300</newBalance>
+        </withdrawCashResponse>
+    </withdrawCash>
+</withdrawCashs>

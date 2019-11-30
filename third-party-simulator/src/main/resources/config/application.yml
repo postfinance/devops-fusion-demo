@@ -1,0 +1,8 @@
+citrus:
+  simulator:
+    ws:
+      enabled: true
+management:
+  server:
+    port: 8090
+spring:  application:    name: ${APPL_NAME:apptest-sim}

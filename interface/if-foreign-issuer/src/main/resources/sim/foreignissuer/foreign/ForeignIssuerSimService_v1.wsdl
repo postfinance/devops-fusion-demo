@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="ForeignIssuerSimService" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fis="http://postfinance.ch/devops/fusion/demo/services/sim/foreignissuer/foreign/v1"
+    targetNamespace="http://postfinance.ch/devops/fusion/demo/services/sim/foreignissuer/foreign/v1">
+    <types>
+        <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns="http://postfinance.ch/devops/fusion/demo/services/sim/foreignissuer/foreign/v1"
+            targetNamespace="http://postfinance.ch/devops/fusion/demo/services/sim/foreignissuer/foreign/v1">
+            <xs:include schemaLocation="ForeignIssuerSimServiceTypes_v1.xsd" />
+        </xs:schema>
+    </types>
+
+    <message name="withdrawCashRequest">
+        <part element="fis:WithdrawCash" name="parameters" />
+    </message>
+
+    <message name="withdrawCashResponse">
+        <part element="fis:WithdrawCashResponse" name="parameters" />
+    </message>
+
+    <message name="getBalanceRequest">
+        <part element="fis:GetBalance" name="parameters" />
+    </message>
+
+    <message name="getBalanceResponse">
+        <part element="fis:GetBalanceResponse" name="parameters" />
+    </message>
+
+    <portType name="ForeignIssuerSimServicePortType">
+        <operation name="withdrawCash">
+            <input message="fis:withdrawCashRequest" />
+            <output message="fis:withdrawCashResponse" />
+        </operation>
+        <operation name="getBalance">
+            <input message="fis:getBalanceRequest" />
+            <output message="fis:getBalanceResponse" />
+        </operation>
+    </portType>
+
+    <binding name="ForeignIssuerSimServiceHTTPBinding" type="fis:ForeignIssuerSimServicePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <operation name="withdrawCash">
+            <soap:operation soapAction="WithdrawCash" style="document" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+        </operation>
+
+        <operation name="getBalance">
+            <soap:operation soapAction="GetBalance" style="document" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+        </operation>
+    </binding>
+
+    <service name="ForeignIssuerSimService">
+        <port name="ForeignIssuerSimServicePortType" binding="fis:ForeignIssuerSimServiceHTTPBinding">
+            <soap:address location="http://localhost:7001/ForeignIssuerSimService?WSDL" />
+        </port>
+    </service>
+</definitions>

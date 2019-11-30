@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://postfinance.ch/devops/fusion/demo/runner/financial/service" xmlns="http://postfinance.ch/devops/fusion/demo/runner/financial/service"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="TestSuite" type="TestSuite" />
+
+    <xsd:complexType name="TestSuite">
+        <xsd:sequence>
+            <xsd:element name="TestCase" type="TestCase" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="TestCase">
+        <xsd:sequence>
+            <xsd:element name="Name" type="xsd:string" />
+            <xsd:element name="Description" type="xsd:string" minOccurs="0" />
+            <xsd:element name="Enabled" type="xsd:boolean" />
+            <xsd:element name="TrmId" type="TrmId" minOccurs="1" />
+            <xsd:element name="CardData" type="CardData" />
+            <xsd:element name="TestStep" type="TestStep" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+        <xsd:attribute name="Id" type="xsd:string"></xsd:attribute>
+    </xsd:complexType>
+
+    <xsd:simpleType name="TrmId">
+        <xsd:restriction base="xsd:int">
+            <xsd:totalDigits value="8" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="CardData">
+        <xsd:sequence>
+            <xsd:element name="CardNumber">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:string">
+                        <xsd:minLength value="8" />
+                        <xsd:maxLength value="8" />
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="TestStep" abstract="true">
+        <xsd:sequence>
+            <xsd:element name="TestStepId" type="xsd:string" minOccurs="0" />
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="DataContainingTestStep" abstract="true">
+        <xsd:complexContent>
+            <xsd:extension base="TestStep">
+                <xsd:sequence>
+                    <xsd:element name="Data" type="Data" minOccurs="1" />
+                    <xsd:element name="Validate" type="Validate" minOccurs="1" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="Data" abstract="true" />
+
+    <xsd:complexType name="Validate" abstract="true" />
+
+    <xsd:complexType name="GetBalanceCall">
+        <xsd:complexContent>
+            <xsd:extension base="DataContainingTestStep" />
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="GetBalanceData">
+        <xsd:complexContent>
+            <xsd:extension base="Data">
+                <xsd:sequence>
+                    <xsd:element name="CardData" type="CardData" minOccurs="0" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="GetBalanceValidate">
+        <xsd:complexContent>
+            <xsd:extension base="Validate">
+                <xsd:sequence>
+                    <xsd:element name="Balance" type="xsd:long" minOccurs="0" />
+                    <xsd:element name="ErrorCode" type="xsd:int" minOccurs="0" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="WithdrawCashCall">
+        <xsd:complexContent>
+            <xsd:extension base="DataContainingTestStep" />
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="WithdrawCashData">
+        <xsd:complexContent>
+            <xsd:extension base="Data">
+                <xsd:sequence>
+                    <xsd:element name="CardData" type="CardData" minOccurs="0" />
+                    <xsd:element name="Amount" type="xsd:long" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="WithdrawCashValidate">
+        <xsd:complexContent>
+            <xsd:extension base="Validate">
+                <xsd:sequence>
+                    <xsd:element name="NewBalance" type="xsd:long" minOccurs="0" />
+                    <xsd:element name="ErrorCode" type="xsd:int" minOccurs="0" />
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+</xsd:schema>

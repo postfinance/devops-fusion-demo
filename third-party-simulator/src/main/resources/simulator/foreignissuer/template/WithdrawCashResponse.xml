@@ -1,0 +1,3 @@
+<WithdrawCashResponse xmlns="http://postfinance.ch/devops/fusion/demo/services/sim/foreignissuer/foreign/v1">
+    <NewBalance>${WithdrawCashScenario:NewBalance}</NewBalance>
+</WithdrawCashResponse>

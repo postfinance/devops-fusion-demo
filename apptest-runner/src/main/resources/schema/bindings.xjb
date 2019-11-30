@@ -1,0 +1,12 @@
+<jaxb:bindings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" xmlns:ci="http://jaxb.dev.java.net/plugin/code-injector" jaxb:extensionBindingPrefixes="ci"
+	jaxb:version="2.1">
+	<jaxb:bindings schemaLocation="TestSchema.xsd">
+		<jaxb:bindings node="/xsd:schema/xsd:complexType[@name='TestCase']">
+			<ci:code>
+			@Override
+			public String toString() { return this.getId() + " - " + this.getName(); }
+			</ci:code>
+		</jaxb:bindings>
+	</jaxb:bindings>
+</jaxb:bindings>

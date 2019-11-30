@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>ch.postfinance</groupId>
+    <artifactId>devops-fusion-demo</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>Devops Fusion Demo</name>
+    <description>Demo project for Devops Fusion: https://devops-fusion.com/</description>
+
+    <!-- <parent> -->
+    <!-- <groupId>org.springframework.boot</groupId> -->
+    <!-- <artifactId>spring-boot-starter-parent</artifactId> -->
+    <!-- <version>2.2.1.RELEASE</version> -->
+    <!-- <relativePath /> lookup parent from repository -->
+    <!-- </parent> -->
+
+    <modules>
+        <module>interface</module>
+        <module>financial-service</module>
+        <module>third-party-simulator</module>
+        <module>apptest-runner</module>
+    </modules>
+
+    <properties>
+        <java.version>11</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <spring-boot-version>2.2.3.RELEASE</spring-boot-version>
+        <spring-cloud-version>Hoxton.SR1</spring-cloud-version>
+
+        <jaxws-rt-version>2.3.2</jaxws-rt-version>
+
+        <build-helper-maven-plugin-version>3.0.0</build-helper-maven-plugin-version>
+        <jaxws-maven-plugin-version>2.3.2</jaxws-maven-plugin-version>
+        <maven-failsafe-version>2.22.2</maven-failsafe-version>
+        <maven-jaxb2-plugin-version>0.14.0</maven-jaxb2-plugin-version>
+        <maven-resources-plugin-version>3.1.0</maven-resources-plugin-version>
+        <maven-surefire-version>2.22.2</maven-surefire-version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot-version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud-version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>jaxws-rt</artifactId>
+                <version>${jaxws-rt-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.postfinance</groupId>
+                <artifactId>if-financial-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.postfinance</groupId>
+                <artifactId>if-foreign-issuer</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-version}</version>
+
+                <executions>
+                    <execution>
+                        <id>default-test</id>
+
+                        <phase>test</phase>
+
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+
+                        <configuration>
+                            <includes>
+                                <include>**/*Test.java</include>
+                            </includes>
+
+                            <excludes>
+                                <exclude>**/*ApplicationTest.java</exclude>
+                                <exclude>**/*IntegrationTest.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${maven-failsafe-version}</version>
+
+                <executions>
+                    <execution>
+                        <id>integration-tests</id>
+
+                        <phase>integration-test</phase>
+
+                        <goals>
+                            <goal>integration-test</goal>
+                        </goals>
+
+                        <configuration>
+                            <includes>
+                                <include>**/*IntegrationTest.java</include>
+                            </includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

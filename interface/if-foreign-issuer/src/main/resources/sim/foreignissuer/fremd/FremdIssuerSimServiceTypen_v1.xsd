@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fis="http://postfinance.ch/devops/fusion/demo/services/sim/foreignissuer/fremd/v1"
+    xmlns="http://postfinance.ch/devops/fusion/demo/services/sim/foreignissuer/fremd/v1" targetNamespace="http://postfinance.ch/devops/fusion/demo/services/sim/foreignissuer/fremd/v1"
+    elementFormDefault="qualified">
+    <xs:complexType name="KartenDaten">
+        <xs:sequence>
+            <xs:element name="KartenNummer">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string">
+                        <xs:minLength value="8" />
+                        <xs:maxLength value="8" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="BetragTyp">
+        <xs:restriction base="xs:long">
+            <xs:totalDigits value="12" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="GeldAbheben" type="fis:GeldAbheben" />
+    <xs:complexType name="GeldAbheben">
+        <xs:sequence>
+            <xs:element name="KartenDaten" type="fis:KartenDaten" />
+            <xs:element name="Betrag" type="fis:BetragTyp" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="GeldAbhebenAntwort" type="fis:GeldAbhebenAntwort" />
+    <xs:complexType name="GeldAbhebenAntwort">
+        <xs:sequence>
+            <xs:element name="NeuerKontostand" type="fis:BetragTyp" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="KontostandAbfragen" type="fis:KontostandAbfragen" />
+    <xs:complexType name="KontostandAbfragen">
+        <xs:sequence>
+            <xs:element name="KartenDaten" type="fis:KartenDaten" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="KontostandAbfragenAntwort" type="fis:KontostandAbfragenAntwort" />
+    <xs:complexType name="KontostandAbfragenAntwort">
+        <xs:sequence>
+            <xs:element name="Betrag" type="fis:BetragTyp" />
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

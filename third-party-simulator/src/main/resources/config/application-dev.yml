@@ -1,0 +1,11 @@
+#logging:
+#  level:
+#    ROOT: debug
+#    com.consol.citrus: debug
+#    javax.management.remote.rmi: warn
+#    sun.rmi.transport.tcp: warn
+management:
+  server:
+    port: 8091
+server:
+  port: 8081

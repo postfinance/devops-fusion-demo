@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE TestSuite>
+<ns2:TestSuite xmlns:ns2="http://postfinance.ch/devops/fusion/demo/runner/financial/service" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://postfinance.ch/devops/fusion/demo/runner/financial/service ../../../main/resources/schema/TestSchema.xsd">
+    <TestCase Id="01-01-01">
+        <Name>Kontostand Foreign Issuer</Name>
+        <Description>Dieser Testfall fragt den Kontostand über den Foreign Issuer ab.</Description>
+        <Enabled>true</Enabled>
+
+        <TrmId>12345678</TrmId>
+
+        <CardData>
+            <CardNumber>20101010</CardNumber>
+        </CardData>
+
+        <TestStep xsi:type="ns2:GetBalanceCall">
+            <Data xsi:type="ns2:GetBalanceData" />
+            <Validate xsi:type="ns2:GetBalanceValidate">
+                <Balance>300</Balance>
+            </Validate>
+        </TestStep>
+    </TestCase>
+</ns2:TestSuite>

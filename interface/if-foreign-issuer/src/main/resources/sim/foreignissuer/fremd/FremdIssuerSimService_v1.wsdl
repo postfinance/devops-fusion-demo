@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="ForeignIssuerSimService" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:fis="http://postfinance.ch/devops/fusion/demo/services/sim/foreignissuer/fremd/v1"
+    targetNamespace="http://postfinance.ch/devops/fusion/demo/services/sim/foreignissuer/fremd/v1">
+    <types>
+        <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns="http://postfinance.ch/devops/fusion/demo/services/sim/foreignissuer/fremd/v1"
+            targetNamespace="http://postfinance.ch/devops/fusion/demo/services/sim/foreignissuer/fremd/v1">
+            <xs:include schemaLocation="FremdIssuerSimServiceTypen_v1.xsd" />
+        </xs:schema>
+    </types>
+
+    <message name="geldAbhebenAnfrage">
+        <part element="fis:GeldAbheben" name="parameters" />
+    </message>
+
+    <message name="geldAbhebenAntwort">
+        <part element="fis:GeldAbhebenAntwort" name="parameters" />
+    </message>
+
+    <message name="kontostandAbfragenAnfrage">
+        <part element="fis:KontostandAbfragen" name="parameters" />
+    </message>
+
+    <message name="kontostandAbfragenAntwort">
+        <part element="fis:KontostandAbfragenAntwort" name="parameters" />
+    </message>
+
+    <portType name="FremdIssuerSimServicePortType">
+        <operation name="geldAbheben">
+            <input message="fis:geldAbhebenAnfrage" />
+            <output message="fis:geldAbhebenAntwort" />
+        </operation>
+        <operation name="kontostandAbfragen">
+            <input message="fis:kontostandAbfragenAnfrage" />
+            <output message="fis:kontostandAbfragenAntwort" />
+        </operation>
+    </portType>
+
+    <binding name="FremdIssuerSimServiceHTTPBinding" type="fis:FremdIssuerSimServicePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+        <operation name="geldAbheben">
+            <soap:operation soapAction="GeldAbheben" style="document" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+        </operation>
+
+        <operation name="kontostandAbfragen">
+            <soap:operation soapAction="KontostandAbfragen" style="document" />
+            <input>
+                <soap:body use="literal" />
+            </input>
+            <output>
+                <soap:body use="literal" />
+            </output>
+        </operation>
+    </binding>
+
+    <service name="FremdIssuerSimService">
+        <port name="FremdIssuerSimServicePortType" binding="fis:FremdIssuerSimServiceHTTPBinding">
+            <soap:address location="http://localhost:7001/FremdIssuerSimService?WSDL" />
+        </port>
+    </service>
+</definitions>

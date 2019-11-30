@@ -1,0 +1,218 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>apptest-runner</artifactId>
+
+    <parent>
+        <groupId>ch.postfinance</groupId>
+        <artifactId>devops-fusion-demo</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.xml.ws</groupId>
+            <artifactId>jaxws-rt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>generate-sources</phase>
+
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+
+                        <configuration>
+                            <includes>**/*.xsd,**/*.wsdl</includes>
+                            <outputDirectory>${project.build.directory}/schema/wsdl</outputDirectory>
+
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>ch.postfinance</groupId>
+                                    <artifactId>if-financial-service</artifactId>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jvnet.jaxb2.maven2</groupId>
+                <artifactId>maven-jaxb2-plugin</artifactId>
+                <version>${maven-jaxb2-plugin-version}</version>
+
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <addIfExistsToEpisodeSchemaBindings>false</addIfExistsToEpisodeSchemaBindings>
+                    <episode>false</episode>
+                    <noFileHeader>true</noFileHeader>
+                    <specVersion>2.3</specVersion>
+                    <verbose>false</verbose>
+
+                    <schemaDirectory>${project.basedir}/src/main/resources/schema/</schemaDirectory>
+                    <schemaIncludes>
+                        <include>TestSchema.xsd</include>
+                    </schemaIncludes>
+                    <bindingDirectory>${project.basedir}/src/main/resources/schema/</bindingDirectory>
+                    <bindingIncludes>
+                        <include>bindings.xjb</include>
+                    </bindingIncludes>
+                    <args>
+                        <arg>-Xinject-code</arg>
+                    </args>
+
+                    <generatePackage>ch.postfinance.devops.fusion.demo.financial.service.api</generatePackage>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.sun.xml.ws</groupId>
+                <artifactId>jaxws-maven-plugin</artifactId>
+                <version>${jaxws-maven-plugin-version}</version>
+
+                <executions>
+                    <execution>
+                        <id>wsimport-financial-service</id>
+
+                        <goals>
+                            <goal>wsimport</goal>
+                        </goals>
+
+                        <configuration>
+                            <wsdlLocation>/wsdl/financial/authorization/FinancialAuthorizationService_v1.wsdl</wsdlLocation>
+                            <wsdlFiles>
+                                <wsdlFile>financial/authorization/FinancialAuthorizationService_v1.wsdl</wsdlFile>
+                            </wsdlFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+
+                <configuration>
+                    <destDir>${project.build.directory}/generated-resources</destDir>
+                    <target>2.2</target>
+                    <xadditionalHeaders>true</xadditionalHeaders>
+                    <bindingDirectory>src/main/resources/bindings</bindingDirectory>
+                    <wsdlDirectory>${project.build.directory}/schema/wsdl</wsdlDirectory>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>${build-helper-maven-plugin-version}</version>
+
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+
+                        <configuration>
+                            <sources>
+                                <source>${project.build.directory}/generated-sources/wsimport</source>
+                                <source>${project.build.directory}/generated-sources/xjc</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-resources-plugin-version}</version>
+
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>process-sources</phase>
+
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+
+                            <resources>
+                                <resource>
+                                    <directory>${project.build.directory}/generated-resources</directory>
+                                    <directory>${project.build.directory}/schema</directory>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>apptest</id>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>${maven-failsafe-version}</version>
+
+                        <executions>
+                            <execution>
+                                <id>integration-tests</id>
+
+                                <phase>integration-test</phase>
+
+                                <goals>
+                                    <goal>integration-test</goal>
+                                </goals>
+
+                                <configuration>
+                                    <includes>
+                                        <include>**/*ApplicationTest.java</include>
+                                    </includes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

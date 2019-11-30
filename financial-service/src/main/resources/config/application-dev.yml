@@ -1,0 +1,18 @@
+#logging:
+#  level:
+#    ROOT: debug
+#    sun.rmi.transport.tcp: warn
+#    javax.management.remote.rmi: warn
+financial-service:
+  issuer:
+    foreign-issuer:
+      url: http://localhost:8081/services/ws/ForeignIssuer
+    fremd-issuer:
+      url: http://localhost:8081/services/ws/FremdIssuer
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/financial_service
+    username: financial_service_user
+    password: financial_service_password
+  jpa:
+    show-sql: true

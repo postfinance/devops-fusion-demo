@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<getBalances>
+    <getBalance>
+        <getBalanceRequest>
+            <cardNumber>20101010</cardNumber>
+        </getBalanceRequest>
+        <getBalanceResponse>
+            <balance>300</balance>
+        </getBalanceResponse>
+    </getBalance>
+</getBalances>
